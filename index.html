@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #38BDF8;
+            --secondary-color: #22D3EE;
+            --text-color: #F8FAFC;
+            --bg-color: #0F172A;
+            --card-bg: #1E293B;
+            --timeline-bg: #111827;
+            --border-color: #334155;
+            --muted-text: #94A3B8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .cursor-glow,
+        .cursor-dot {
+            display: none;
+        }
+
+        @media (pointer: fine) {
+            body.has-custom-cursor {
+                cursor: none;
+            }
+
+            body.has-custom-cursor a,
+            body.has-custom-cursor button,
+            body.has-custom-cursor select {
+                cursor: none;
+            }
+
+            .cursor-glow {
+                display: block;
+                position: fixed;
+                width: 180px;
+                height: 180px;
+                border-radius: 50%;
+                pointer-events: none;
+                background: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, rgba(56, 189, 248, 0) 70%);
+                transform: translate(-50%, -50%);
+                z-index: 999;
+                transition: opacity 0.2s ease;
+            }
+
+            .cursor-dot {
+                display: block;
+                position: fixed;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                pointer-events: none;
+                background: var(--primary-color);
+                box-shadow: 0 0 12px var(--primary-color);
+                transform: translate(-50%, -50%);
+                z-index: 1001;
+            }
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+            z-index: 1000;
+            transition: width 0.1s linear;
+        }
+
+        header {
+            background: linear-gradient(135deg, #000000 0%, #0F172A 100%);
+            color: var(--text-color);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .accent-text {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            margin-left: 4px;
+            vertical-align: -0.15em;
+            background: var(--primary-color);
+            animation: blink 0.8s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .dark-mode-toggle {
+            display: none;
+        }
+
+        nav {
+            background: var(--card-bg);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .language-switcher {
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            padding: 0.35rem 0.5rem;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        nav a {
+            color: #F8FAFC;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s, transform 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            border-radius: 8px;
+        }
+
+        section h2::before {
+            content: '▼ ';
+            display: inline-block;
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+            font-size: 0.8em;
+        }
+
+        section.collapsed h2::before {
+            transform: rotate(-90deg);
+        }
+
+        section h2:hover {
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            transform: translateX(10px);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .developer-avatar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            color: #FFFFFF;
+        }
+
+        .developer-avatar span {
+            display: grid;
+            place-items: center;
+            width: 110px;
+            height: 110px;
+            border: 3px solid #FFFFFF;
+            border-radius: 50%;
+            font-family: Consolas, monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .developer-avatar small {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .about-image:hover {
+            transform: scale(1.05);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
+        }
+
+        .skill-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .skill-item {
+            margin-bottom: 2rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
+        .skill-percentage {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            width: var(--progress-width, 0%);
+            transition: width 1.5s ease-out;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+
+        .progress-fill.animated {
+            background-size: 200% 100%;
+            animation: progressGlow 2s linear infinite;
+        }
+
+        @keyframes progressGlow {
+            from {
+                background-position: 100% 0;
+            }
+            to {
+                background-position: -100% 0;
+            }
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-content h3 {
+            color: #FFFFFF;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-content p {
+            margin-bottom: 1rem;
+            color: var(--muted-text);
+        }
+
+        .project-link {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+            cursor: pointer;
+        }
+
+        .project-link:hover {
+            background: var(--secondary-color);
+            transform: translateX(3px);
+        }
+
+        .github-stats {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .github-stats h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            display: inline-block;
+            margin: 0 1rem;
+        }
+
+        .stat-item strong {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            display: block;
+        }
+
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-content p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .guestbook {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .guestbook h3 {
+            color: #FFFFFF;
+            margin-bottom: 1rem;
+        }
+
+        .guestbook-form {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .guestbook-form input,
+        .guestbook-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font: inherit;
+        }
+
+        .guestbook-form textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .guestbook-form input:focus,
+        .guestbook-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .guestbook-form button {
+            border: 0;
+            border-radius: 4px;
+            padding: 0.75rem 1rem;
+            background: var(--primary-color);
+            color: #0F172A;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .guestbook-form button:hover {
+            background: var(--secondary-color);
+        }
+
+        .guestbook-list {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .guestbook-entry {
+            padding: 0.9rem;
+            border-left: 3px solid var(--primary-color);
+            background: var(--timeline-bg);
+        }
+
+        .guestbook-entry strong {
+            color: #FFFFFF;
+        }
+
+        .guestbook-entry p {
+            margin: 0.25rem 0 0;
+            color: var(--muted-text);
+            font-size: 0.95rem;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s;
+            font-size: 1.5rem;
+        }
+
+        .social-link:hover {
+            background: var(--secondary-color);
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+            top: 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: 0;
+            margin-right: auto;
+            width: 45%;
+            text-align: right;
+            padding-right: 3rem;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            margin-right: 0;
+            width: 45%;
+            text-align: left;
+            padding-left: 3rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid var(--primary-color);
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .timeline-content {
+            background: var(--timeline-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .timeline-content h3 {
+            color: #FFFFFF;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: var(--muted-text);
+        }
+
+        .timeline-year {
+            color: var(--secondary-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Back to Top Button */
+        #backToTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        #backToTopBtn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+
+        #backToTopBtn.show {
+            display: flex;
+        }
+
+        footer {
+            background: var(--card-bg);
+            color: var(--text-color);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-message {
+            color: #4caf50;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message {
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .section-content {
+            overflow: hidden;
+            max-height: 10000px;
+            transition: max-height 0.4s ease, opacity 0.4s ease;
+            opacity: 1;
+        }
+
+        section.collapsed .section-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        [data-animate] {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        [data-animate].is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            [data-animate] {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section h2:hover {
+                padding: 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            section {
+                padding: 2rem 0;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+                margin-right: 0 !important;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                text-align: left;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            #backToTopBtn {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+    <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" title="Back to Top">⬆️</button>
+
+    <!-- Header -->
+    <header>
+        <h1>Sultan Mohamed Hamood Al Musalhi</h1>
+        <p><span class="accent-text" id="typingText"></span><span class="typing-cursor" aria-hidden="true"></span> | C++ | JavaScript | HTML | SMK Negeri 1 Jakarta</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#about" data-i18n="about">About</a></li>
+            <li><a href="#skills" data-i18n="skills">Skills</a></li>
+            <li><a href="#timeline" data-i18n="timeline">Timeline</a></li>
+            <li><a href="#projects" data-i18n="projects">Projects</a></li>
+            <li><a href="#contact" data-i18n="contact">Contact</a></li>
+            <li>
+                <select class="language-switcher" id="languageSwitcher" aria-label="Pilih bahasa">
+                    <option value="id">ID</option>
+                    <option value="en">EN</option>
+                </select>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2 data-animate data-i18n="aboutTitle">About Me</h2>
+            <div class="section-content">
+                <div class="about-content">
+                    <div class="about-text">
+                        <p data-id="Halo! Saya Sultan, seorang student developer dari SMK Negeri 1 Jakarta, kelas X RPL (Rekayasa Perangkat Lunak). Saya baru memulai perjalanan coding sekitar 2 bulan lalu dan bersemangat untuk terus belajar serta meningkatkan kemampuan programming saya." data-en="Hello! I am Sultan, a student developer from SMK Negeri 1 Jakarta in the Software Engineering class. I started my coding journey about 2 months ago and I am passionate about learning and improving my programming skills.">Halo! Saya Sultan, seorang student developer dari SMK Negeri 1 Jakarta, kelas X RPL (Rekayasa Perangkat Lunak). Saya baru memulai perjalanan coding sekitar 2 bulan lalu dan bersemangat untuk terus belajar serta meningkatkan kemampuan programming saya.</p>
+                        <p data-id="Saat ini saya sedang belajar C++, HTML, CSS, dan JavaScript dari dasar. Saya juga aktif menggunakan AI tools seperti ChatGPT untuk mempercepat proses pembelajaran. Meskipun masih junior, saya serius dan berdedikasi untuk menjadi developer yang baik." data-en="I am currently learning C++, HTML, CSS, and JavaScript from the basics. I also use AI tools such as ChatGPT to support my learning. Although I am still a junior developer, I am serious and dedicated to becoming a good developer.">Saat ini saya sedang belajar C++, HTML, CSS, dan JavaScript dari dasar. Saya juga aktif menggunakan AI tools seperti ChatGPT untuk mempercepat proses pembelajaran. Meskipun masih junior, saya serius dan berdedikasi untuk menjadi developer yang baik.</p>
+                        <p data-id="Saya percaya bahwa konsistensi dan kerja keras adalah kunci. Saya menikmati pemecahan masalah dan siap mempelajari teknologi baru. Semoga saya bisa berkolaborasi dengan banyak orang dan berkontribusi dalam proyek yang bermakna." data-en="I believe consistency and hard work are the keys to growth. I enjoy problem-solving and am ready to keep learning new technologies. I hope to collaborate with others and contribute to meaningful projects.">Saya percaya bahwa konsistensi dan kerja keras adalah kunci. Saya menikmati pemecahan masalah dan siap mempelajari teknologi baru. Semoga saya bisa berkolaborasi dengan banyak orang dan berkontribusi dalam proyek yang bermakna.</p>
+                    </div>
+                    <div class="about-image">
+                        <div class="developer-avatar" aria-label="Avatar developer">
+                            <span>&lt;/&gt;</span>
+                            <small data-id="Membangun dengan kode" data-en="Building with code">Membangun dengan kode</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2 data-animate data-i18n="skillsTitle">Skills</h2>
+            <div class="section-content">
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h3 data-id="🎨 Frontend" data-en="🎨 Frontend">🎨 Frontend</h3>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>HTML</span>
+                                <span class="skill-percentage">40%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="40" style="--progress-width: 40%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>CSS</span>
+                                <span class="skill-percentage">35%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="35" style="--progress-width: 35%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>JavaScript</span>
+                                <span class="skill-percentage">30%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="30" style="--progress-width: 30%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <h3 data-id="⚙️ Backend & Sistem" data-en="⚙️ Backend & Systems">⚙️ Backend & Sistem</h3>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>C++</span>
+                                <span class="skill-percentage">45%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="45" style="--progress-width: 45%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Basic OOP</span>
+                                <span class="skill-percentage">35%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="35" style="--progress-width: 35%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Problem Solving</span>
+                                <span class="skill-percentage">40%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="40" style="--progress-width: 40%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <h3 data-id="🛠️ Tools & AI" data-en="🛠️ Tools & AI">🛠️ Tools & AI</h3>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>VS Code</span>
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="70" style="--progress-width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Git & GitHub</span>
+                                <span class="skill-percentage">50%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="50" style="--progress-width: 50%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>AI Tools (ChatGPT, etc)</span>
+                                <span class="skill-percentage">60%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="60" style="--progress-width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2 data-animate data-i18n="projectsTitle">Projects</h2>
+            <div class="section-content">
+                <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <span data-id="🎓 Sedang Belajar" data-en="🎓 Currently Learning">🎓 Sedang Belajar</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 data-id="C++ Console Programs" data-en="C++ Console Programs">C++ Console Programs</h3>
+                        <p data-id="Membuat berbagai program berbasis console dengan C++ untuk memahami dasar-dasar seperti perulangan, kondisi, array, dan fungsi." data-en="Building console-based programs with C++ to understand fundamentals such as loops, conditionals, arrays, and functions.">Membuat berbagai program berbasis console dengan C++ untuk memahami dasar-dasar seperti perulangan, kondisi, array, dan fungsi.</p>
+                        <a href="https://github.com/SultanAlmusalhi24" class="project-link" data-id="Lihat di GitHub" data-en="View on GitHub">Lihat di GitHub</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <span data-id="🌐 Pengembangan Web" data-en="🌐 Web Development">🌐 Pengembangan Web</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 data-id="Personal Web Portfolio (Situs Ini!)" data-en="Personal Web Portfolio (This Site!)">Personal Web Portfolio (Situs Ini!)</h3>
+                        <p data-id="Website portfolio interaktif yang dibuat dengan HTML, CSS, dan JavaScript. Mencakup toggle mode gelap, scroll halus, dan desain responsif untuk semua perangkat." data-en="An interactive portfolio website built with HTML, CSS, and JavaScript. Includes a dark mode toggle, smooth scrolling, and responsive design for every device.">Website portfolio interaktif yang dibuat dengan HTML, CSS, dan JavaScript. Mencakup toggle mode gelap, scroll halus, dan desain responsif untuk semua perangkat.</p>
+                        <a href="https://github.com/SultanAlmusalhi24" class="project-link" data-id="Lihat Kode" data-en="View Code">Lihat Kode</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <span data-id="🚀 Masa Depan" data-en="🚀 Coming Soon">🚀 Masa Depan</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 data-id="Proyek Mendatang" data-en="Upcoming Projects">Proyek Mendatang</h3>
+                        <p data-id="Berencana membuat mini game dengan C++, aplikasi web To-Do List, dan implementasi struktur data. Terus belajar dan mengeksplorasi teknologi baru." data-en="Planning to build mini games with C++, a To-Do List web app, and data structure implementations. Continuing to learn and explore new technology.">Berencana membuat mini game dengan C++, aplikasi web To-Do List, dan implementasi struktur data. Terus belajar dan mengeksplorasi teknologi baru.</p>
+                        <a href="https://github.com/SultanAlmusalhi24" class="project-link" data-id="Ikuti Progress" data-en="Follow Progress">Ikuti Progress</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline">
+        <div class="container">
+            <h2 data-animate data-i18n="journeyTitle">My Journey</h2>
+            <div class="section-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-year" data-id="Juli 2026" data-en="July 2026">Juli 2026</div>
+                            <h3 data-id="Memulai Perjalanan Coding" data-en="Starting My Coding Journey">Memulai Perjalanan Coding</h3>
+                            <p data-id="Memulai perjalanan programming dari nol! Mulai belajar C++ dan konsep dasar pemrograman di SMK Negeri 1 Jakarta kelas X RPL." data-en="Started my programming journey from scratch! Began learning C++ and fundamental programming concepts in the Software Engineering class at SMK Negeri 1 Jakarta.">Memulai perjalanan programming dari nol! Mulai belajar C++ dan konsep dasar pemrograman di SMK Negeri 1 Jakarta kelas X RPL.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-year" data-id="September 2026 (Sekarang)" data-en="September 2026 (Now)">September 2026 (Sekarang)</div>
+                            <h3 data-id="Eksplorasi Web & Membangun Portfolio" data-en="Exploring Web Development & Building a Portfolio">Eksplorasi Web & Membangun Portfolio</h3>
+                            <p data-id="Mulai belajar HTML, CSS, dan JavaScript. Mengeksplorasi AI tools seperti ChatGPT untuk mempercepat pembelajaran. Membuat website portfolio interaktif dan program console dengan C++." data-en="Started learning HTML, CSS, and JavaScript. Exploring AI tools such as ChatGPT to support learning. Building an interactive portfolio website and C++ console programs.">Mulai belajar HTML, CSS, dan JavaScript. Mengeksplorasi AI tools seperti ChatGPT untuk mempercepat pembelajaran. Membuat website portfolio interaktif dan program console dengan C++.</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-year" data-id="Oktober 2026 - 2027" data-en="October 2026 - 2027">Oktober 2026 - 2027</div>
+                            <h3 data-id="Target ke Depan" data-en="Future Goals">Target ke Depan</h3>
+                            <p data-id="Mendalami konsep OOP C++ dan algoritma. Belajar full-stack web development. Membuat lebih banyak proyek dan berkontribusi ke open-source. Target siap untuk internship!" data-en="Deepen my knowledge of C++ OOP concepts and algorithms. Learn full-stack web development. Build more projects and contribute to open source. My goal is to be ready for an internship!">Mendalami konsep OOP C++ dan algoritma. Belajar full-stack web development. Membuat lebih banyak proyek dan berkontribusi ke open-source. Target siap untuk internship!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 data-animate data-i18n="contactTitle">Get In Touch</h2>
+            <div class="section-content">
+                <div class="contact-content">
+                    <p data-id="Saya ingin mendengar dari kamu! Silakan hubungi saya untuk kolaborasi atau sekadar menyapa." data-en="I'd love to hear from you! Feel free to reach out for collaborations or just a friendly hello.">Saya ingin mendengar dari kamu! Silakan hubungi saya untuk kolaborasi atau sekadar menyapa.</p>
+                    <p>
+                        <strong data-id="Email:" data-en="Email:">Email:</strong> <a href="mailto:sultanbro2022@gmail.com" style="color: var(--primary-color); text-decoration: none;">sultanbro2022@gmail.com</a>
+                    </p>
+                    <div class="social-links">
+                        <a href="https://github.com/SultanAlmusalhi24" class="social-link" title="GitHub" target="_blank">🐙</a>
+                        <a href="https://instagram.com/sultaaan240" class="social-link" title="Instagram" target="_blank">📷</a>
+                        <a href="mailto:sultanbro2022@gmail.com" class="social-link" title="Email">✉️</a>
+                    </div>
+                    <div class="guestbook">
+                        <h3 data-id="Guestbook" data-en="Guestbook">Guestbook</h3>
+                        <form class="guestbook-form" id="guestbookForm">
+                            <input id="guestbookName" type="text" maxlength="40" required data-placeholder-id="Nama kamu" data-placeholder-en="Your name" placeholder="Nama kamu">
+                            <textarea id="guestbookMessage" maxlength="240" required data-placeholder-id="Tulis pesan singkat..." data-placeholder-en="Write a short message..." placeholder="Tulis pesan singkat..."></textarea>
+                            <button type="submit" data-id="Kirim Pesan" data-en="Send Message">Kirim Pesan</button>
+                        </form>
+                        <div class="guestbook-list" id="guestbookList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p data-id="&copy; 2026 Sultan Mohamed Hamood Al Musalhi. Semua hak dilindungi. | SMK Negeri 1 Jakarta | Kelas X RPL" data-en="&copy; 2026 Sultan Mohamed Hamood Al Musalhi. All rights reserved. | SMK Negeri 1 Jakarta | Class X Software Engineering">&copy; 2026 Sultan Mohamed Hamood Al Musalhi. Semua hak dilindungi. | SMK Negeri 1 Jakarta | Kelas X RPL</p>
+    </footer>
+
+    <script>
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const scrollProgress = document.getElementById('scrollProgress');
+        const cursorGlow = document.getElementById('cursorGlow');
+        const cursorDot = document.getElementById('cursorDot');
+
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.body.classList.add('has-custom-cursor');
+
+            document.addEventListener('mousemove', (event) => {
+                cursorGlow.style.left = `${event.clientX}px`;
+                cursorGlow.style.top = `${event.clientY}px`;
+                cursorDot.style.left = `${event.clientX}px`;
+                cursorDot.style.top = `${event.clientY}px`;
+            });
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+
+            const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercentage = scrollableHeight > 0
+                ? (window.scrollY / scrollableHeight) * 100
+                : 0;
+            scrollProgress.style.width = `${scrollPercentage}%`;
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Progress Bar Animation on Scroll
+        const animateProgressBars = () => {
+            const progressFills = document.querySelectorAll('.progress-fill');
+
+            const fillProgress = (fill) => {
+                if (!fill.classList.contains('animated')) {
+                    fill.style.width = `${fill.dataset.progress}%`;
+                    fill.classList.add('animated');
+                }
+            };
+
+            if (!('IntersectionObserver' in window)) {
+                progressFills.forEach(fillProgress);
+                return;
+            }
+
+            const observer = new IntersectionObserver((entries, progressObserver) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        fillProgress(entry.target);
+                        progressObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            progressFills.forEach(fill => observer.observe(fill));
+        };
+
+        // Interactive Sections - Click to Toggle
+        document.querySelectorAll('section h2').forEach(heading => {
+            heading.addEventListener('click', () => {
+                const section = heading.closest('section');
+                section.classList.toggle('collapsed');
+            });
+
+            heading.style.cursor = 'pointer';
+        });
+
+        // Smooth Scrolling for Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+        const translations = {
+            id: {
+                about: 'Tentang',
+                skills: 'Keahlian',
+                timeline: 'Perjalanan',
+                projects: 'Proyek',
+                contact: 'Kontak',
+                aboutTitle: 'Tentang Saya',
+                skillsTitle: 'Keahlian',
+                projectsTitle: 'Proyek',
+                journeyTitle: 'Perjalanan Saya',
+                contactTitle: 'Hubungi Saya'
+            },
+            en: {
+                about: 'About',
+                skills: 'Skills',
+                timeline: 'Timeline',
+                projects: 'Projects',
+                contact: 'Contact',
+                aboutTitle: 'About Me',
+                skillsTitle: 'Skills',
+                projectsTitle: 'Projects',
+                journeyTitle: 'My Journey',
+                contactTitle: 'Get In Touch'
+            }
+        };
+
+        const languageSwitcher = document.getElementById('languageSwitcher');
+        const guestbookForm = document.getElementById('guestbookForm');
+        const guestbookName = document.getElementById('guestbookName');
+        const guestbookMessage = document.getElementById('guestbookMessage');
+        const guestbookList = document.getElementById('guestbookList');
+        const guestbookStorageKey = 'sultan-portfolio-guestbook';
+
+        const renderGuestbook = () => {
+            const entries = JSON.parse(localStorage.getItem(guestbookStorageKey) || '[]');
+            guestbookList.textContent = '';
+
+            entries.forEach(entry => {
+                const item = document.createElement('article');
+                item.className = 'guestbook-entry';
+
+                const name = document.createElement('strong');
+                name.textContent = entry.name;
+
+                const message = document.createElement('p');
+                message.textContent = entry.message;
+
+                item.append(name, message);
+                guestbookList.appendChild(item);
+            });
+        };
+
+        guestbookForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const entries = JSON.parse(localStorage.getItem(guestbookStorageKey) || '[]');
+
+            entries.unshift({
+                name: guestbookName.value.trim(),
+                message: guestbookMessage.value.trim()
+            });
+
+            localStorage.setItem(guestbookStorageKey, JSON.stringify(entries.slice(0, 10)));
+            guestbookForm.reset();
+            renderGuestbook();
+        });
+
+        const applyLanguage = (language) => {
+            document.documentElement.lang = language;
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                element.textContent = translations[language][element.dataset.i18n];
+            });
+            document.querySelectorAll('[data-id][data-en]').forEach(element => {
+                element.textContent = element.dataset[language];
+            });
+            document.querySelectorAll('[data-placeholder-id][data-placeholder-en]').forEach(element => {
+                element.placeholder = language === 'id'
+                    ? element.dataset.placeholderId
+                    : element.dataset.placeholderEn;
+            });
+            if (typeof typingPhrases !== 'undefined') {
+                typingPhrases = language === 'id'
+                    ? ['Student Developer', 'Pembelajar Web', 'Penggemar C++']
+                    : ['Student Developer', 'Web Learner', 'C++ Enthusiast'];
+            }
+        };
+
+        languageSwitcher.addEventListener('change', (event) => {
+            applyLanguage(event.target.value);
+        });
+
+        const typingText = document.getElementById('typingText');
+        let typingPhrases = ['Student Developer', 'Web Learner', 'C++ Enthusiast'];
+        let phraseIndex = 0;
+        let characterIndex = 0;
+        let deleting = false;
+
+        const typePhrase = () => {
+            const phrase = typingPhrases[phraseIndex];
+            typingText.textContent = phrase.slice(0, characterIndex);
+
+            if (!deleting && characterIndex < phrase.length) {
+                characterIndex += 1;
+                setTimeout(typePhrase, 90);
+                return;
+            }
+
+            if (!deleting) {
+                deleting = true;
+                setTimeout(typePhrase, 1400);
+                return;
+            }
+
+            if (characterIndex > 0) {
+                characterIndex -= 1;
+                setTimeout(typePhrase, 45);
+                return;
+            }
+
+            deleting = false;
+            phraseIndex = (phraseIndex + 1) % typingPhrases.length;
+            setTimeout(typePhrase, 250);
+        };
+
+        document.querySelectorAll('.skill-card, .project-card, .timeline-content, .about-text, .about-image').forEach(element => {
+            element.dataset.animate = '';
+        });
+
+        const revealElements = document.querySelectorAll('[data-animate]');
+
+        const showRevealElement = (element, index) => {
+            element.style.transitionDelay = `${Math.min(index * 70, 350)}ms`;
+            element.classList.add('is-visible');
+        };
+
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        showRevealElement(entry.target, Number(entry.target.dataset.animateIndex));
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.05, rootMargin: '0px 0px -8% 0px' });
+
+            revealElements.forEach((element, index) => {
+                element.dataset.animateIndex = index;
+                revealObserver.observe(element);
+
+                const bounds = element.getBoundingClientRect();
+                if (bounds.top < window.innerHeight && bounds.bottom > 0) {
+                    showRevealElement(element, index);
+                    revealObserver.unobserve(element);
+                }
+            });
+        } else {
+            revealElements.forEach(showRevealElement);
+        }
+        applyLanguage('id');
+        renderGuestbook();
+        typePhrase();
+
+        // Initialize progress bars animation
+        animateProgressBars();
+    </script>
+</body>
+</html>
